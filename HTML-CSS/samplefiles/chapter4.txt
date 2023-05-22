@@ -1,0 +1,539 @@
+﻿リスト4-1
+console.log('This is Node.js!');
+
+
+
+
+
+リスト4-2
+var n = 12345;
+var total = 0;
+for(var i = 1;i <= n;i++){
+    total += i;
+}
+console.log('total: ' + total);
+
+
+
+
+
+
+リスト4-3
+console.time('test');
+
+var result = [];
+for (let i = 2; i < 1000; i++) {
+    var num =2;
+    var flg = true;
+    while(num < i){
+        if (i % num  == 0){
+            flg = false;
+            break;
+        }
+        num++;
+    }
+    if (flg){
+        result.push(i);
+    }
+}
+console.log(result);
+console.timeEnd('test');
+
+
+
+
+
+リスト4-4
+const readline = require('readline');
+
+const read = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+  
+read.question('type any words: ', (answer) => {
+    read.write("you typed:" + answer);
+    read.close();
+});
+
+
+
+
+
+
+リスト4-5
+const readline = require('readline');
+
+const read = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function answer(answer){
+    read.write("you typed:" + answer);
+    read.close();
+}
+  
+read.question('type any words: ', answer);
+
+
+
+
+リスト4-6
+const readline = require('readline');
+
+exports.getline = function(msg){
+    const read = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    
+    return new Promise((resolve, reject)=>{
+        read.question(msg, (answer) => {
+            resolve(answer);
+            read.close();
+        });
+    })
+};
+
+
+
+
+
+
+リスト4-7
+const gl = require("./getline.js");
+
+// メイン処理
+async function main(){
+    console.log(('--begin--'));
+    while(true){
+        var result = await gl.getline('type any words: ');
+        if (result == ''){ break; }
+        console.log('you typed: ' + result);
+    }
+    console.log('--end--');
+}
+
+main(); // メイン処理を実行
+
+
+
+
+
+
+リスト4-8
+const readline = require('readline');
+
+var counter = 0;
+
+const read = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+read.on('line', (line) => {
+    counter++;
+    console.log('(' + counter + ': ' + line.length + ' chars)');
+});
+
+var content = ["--begin--",
+    "これは、長文のコンテンツです。",
+    "長い文章を出力させる例です。",
+    "どのように表示されるかな？",
+    "--end--"].join('\n');
+read.write(content);
+read.close();
+
+
+
+
+
+リスト4-9
+read.on('SIGINT', () => {
+    console.log(' \n*** finish ***');
+    read.close();
+});
+
+　これが、SIGINTイベントの処理です。単純に、console.logでテキストを出力するだけのものです。では、getlineを使ったサンプルを作りましょう。app.jsを開いて以下のように書き換えて下さい。
+
+リスト4-10
+const gl = require("./getline.js");
+
+const readline = require('readline');
+
+async function main(){
+    while(true){
+        var re = await gl.getline('input: ');
+        console.log('(' + re.length + ' chars)');
+    }
+}
+
+main();
+
+
+
+
+
+リスト4-10
+const gl = require("./getline.js");
+
+const readline = require('readline');
+
+async function main(){
+    while(true){
+        var re = await gl.getline('input: ');
+        console.log('(' + re.length + ' chars)');
+    }
+}
+
+main();
+
+
+
+
+
+
+リスト4-11
+var data = {Tokyo:1230, Osaka:987, NewYork:456};
+console.table(data);
+
+var data2 = {
+    Windows:{Tokyo:1230, Osaka:987, NewYork:456},
+    macOS:{Tokyo:543, Osaka:210, NewYork:789},
+    Linux:{Tokyo:98, Osaka:76, NewYork:54}
+};
+console.table(data2);
+
+
+
+
+
+
+リスト4-12
+const https = require('https');
+
+https.get('https://tuya-no.firebaseio.com/message.json', (res) => {
+    let body = '';
+    res.setEncoding('utf8');
+  
+    res.on('data', (chunk) => {
+        body += chunk;
+    });
+  
+    res.on('end', (res) => {
+        console.log(body);
+    });
+  })
+
+
+
+
+
+
+リスト4-13
+const http = require('https');
+
+http.get('https://tuya-no.firebaseio.com/mydata.json', (res) => {
+    let body = '';
+    res.setEncoding('utf8');
+  
+    res.on('data', (chunk) => {
+        body += chunk;
+    });
+  
+    res.on('end', (res) => {
+        json = JSON.parse(body);
+        console.table(json);
+    });
+  })
+
+
+
+
+
+
+
+リスト4-14
+const https = require('https');
+const rl = require('./getline.js');
+
+async function main(){
+    let msg = await rl.getline('type your message: ');
+    msg = '{"message":"' + msg + '"}';
+
+    const options = {
+        hostname: 'tuya-no.firebaseio.com',
+        path: '/dummy.json',
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(msg)
+        }
+    };
+
+    let req = https.request(options, (res) => {
+        console.log('STATUS: ' + res.statusCode);
+    })
+
+    req.on('error', (e) => {
+        console.log(e);
+    });
+
+    req.write(msg, (err)=>{
+        if (err != undefined){
+            console.log(err);
+        }
+    });
+
+    req.end(()=>{
+        console.log('finished!!');
+    });
+}
+main();
+
+
+
+
+
+
+
+リスト4-15
+const fs = require('fs');
+
+const f1 = fs.readFileSync('./index.html');
+console.log(f1.toString());
+
+
+
+
+
+
+リスト4-16
+const fs = require('fs');
+
+fs.readFile('./index.html',(err, data) => {
+    console.log(data.toString());
+});
+
+
+
+
+
+
+リスト4-17
+const fs = require('fs');
+
+function getFile(fname){
+    return new Promise((resolve, reject)=>{
+        fs.readFile(fname,(err, data) => {
+            resolve(data);
+        });
+    });
+}
+
+async function main(){
+    var data = await getFile('./index.html');
+    console.log(data.toString());
+}
+
+main();
+
+
+
+
+
+
+リスト4-18
+const fs = require('fs');
+const rl = require('./getline.js');
+
+async function main(){
+    let msg = await rl.getline('please type:');
+    fs.writeFileSync('./data.txt', msg);
+    console.log('save data.txt to write:' + msg);
+}
+main();
+
+
+
+
+
+
+リスト4-19
+const fs = require('fs');
+const rl = require('./getline.js');
+
+async function main(){
+    let msg = await rl.getline('please type:');
+    fs.writeFile('./data.txt', msg, (err)=>{
+        console.log('save data.txt to write:' + msg);
+    });
+}
+main();
+
+
+
+
+
+
+リスト4-20
+const fs = require('fs');
+const rl = require('./getline.js');
+
+async function main(){
+    while(true){
+        let msg = await rl.getline('please type:');
+        if (msg == ''){
+            return;
+        }
+        fs.appendFileSync('./data.txt', msg + '\n');
+    }
+}
+main();
+
+
+
+
+
+リスト4-21
+const fs = require('fs');
+
+let counter = 0;
+let files = fs.readdirSync('./');
+for(var i in files){
+    counter++
+    console.log(counter + ': ' + files[i]);
+}
+
+
+
+
+
+
+リスト4-22
+const fs = require('fs');
+
+let counter = 0;
+let files = fs.readdirSync('./');
+for(var i in files){
+    counter++
+    console.log(counter + ': ' + files[i]);
+}
+
+
+
+リスト4-23
+const fs = require('fs');
+
+let fname = './app.js';
+fs.stat(fname, (err, st)=>{
+    console.log('NAME:   ' + fname);
+    console.log('SIZE:   ' + st.size);
+    console.log('CREATE: ', st.birthtime);
+    console.log('MODIFY: ' + st.mtime);
+});
+
+
+
+
+リスト4-24
+const fs = require('fs');
+
+let dir = './';
+let bk = dir + 'backup/';
+
+let files = fs.readdirSync(dir);
+fs.mkdirSync(bk);
+console.log( bk + ' created.');
+for (let i in files){
+    fs.copyFileSync(dir + files[i], bk + files[i]);
+    console.log(files[i] + ' backuped.');
+}
+console.log('backup completed!');
+
+
+
+
+
+リスト4-25
+const fs = require('fs');
+const rl = require('./getline.js');
+
+var data = []; // データ配列
+let fname = './message.txt';  // データファイル
+
+// メイン処理
+async function main(){
+    let opt = {encoding:'utf8'}
+    let bf = fs.readFileSync(fname, opt);
+    data = JSON.parse(bf.toString('utf8'));  
+
+    while(true){
+        let cmd = await rl.getline('cmd(a/d/f/q)');
+        switch(cmd.toString()){
+            case 'a':
+                await add();
+                break;
+            case 'd':
+                await del();
+                break;
+            case 'f':
+                await find();
+                break;
+            case 'q':
+                quit();
+                return;
+            default:
+                console.log('no-command.');
+        }
+    }
+}
+
+// メッセージの追加
+async function add(){
+    let bf = await rl.getline('type message: ');
+    let msg = bf.toString('utf8');
+    let item = {
+        date:new Date(),
+        message: msg
+    }
+    data.unshift(item);
+    console.log('message added.');
+}
+
+// メッセージの削除
+async function del(){
+    let bf = await rl.getline('type number: ');
+    let num = bf.toString() * 1;
+    console.log('item: ' + data[num].message);
+    bf = await rl.getline('delete it? (y/n):');
+    if (bf.toString() == 'y'){
+        data.splice(num, 1);
+    }
+}
+
+// メッセージの検索
+async function find(){
+    let bf = await rl.getline('find: ');
+    let find = bf.toString('utf8');
+    for(let i in data){
+        if (data[i].message.indexOf(find) > -1){
+            console.log(i + ': ' + data[i].message);
+        }
+    }
+}
+
+// スクリプトの終了
+function quit(){
+    let opt = {encoding:'utf8'}
+    fs.writeFileSync(fname, JSON.stringify(data), opt);
+    console.log('quit now!');
+}
+
+main(); // メイン処理の実行
+
+
+
+リスト4-26
+[]

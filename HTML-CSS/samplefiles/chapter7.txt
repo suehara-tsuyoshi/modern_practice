@@ -1,0 +1,525 @@
+﻿リスト7-1――./views/header.ejs
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+</head>
+<body class="container">
+<%-include('nav') %>
+<p class="text-right">
+    <%= login != undefined ? '"' + login.name + '" logined.' : '(not logined)' %>
+</p>
+<h1 class="mt-3 mb-3">
+    <%= title %>
+</h1>
+
+
+
+リスト7-2――./views/footer.ejs
+<hr class="mt-5">
+<div>
+    <p class="text-center h6">copyright MYNAVI 2019.</p>
+</div>
+</body>
+</html>
+
+
+
+リスト7-3――./views/nav.ejs
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+        <a class="navbar-brand" href="/">Top</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/add">Add</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/user">User</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/users/login">login</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/users/logout">logout</a>
+        </li>
+        <% if (login != undefined && login.role == 'admin'){ %>
+        <li class="nav-item active">
+            <a class="nav-link" href="/users/admin">admin</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/users/admin2">admin2</a>
+        </li>
+        <% } %>
+    </ul>
+</nav>
+
+
+
+リスト7-4――./app.jsのrequire文の部分に追記
+var session = require('express-session');
+
+
+
+リスト7-5――./app.jsのapp.use文の部分に追記
+let ses_opt = {
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 }
+};
+app.use(session(ses_opt)); 
+
+
+
+リスト7-6――./db/get.js
+exports.getRow = function(sql){
+    let sqlite3 = require('sqlite3').verbose();
+    let db = new sqlite3.Database('todo.db'); 
+
+    return new Promise((resolve, reject)=>{
+       db.get(sql,(err, row) => {
+            resolve(row);
+        });
+    });
+}
+
+
+
+リスト7-7――./db/all.js
+exports.getAllRows = function(sql){
+    let sqlite3 = require('sqlite3').verbose();
+    let db = new sqlite3.Database('todo.db');
+
+    return new Promise((resolve, reject)=>{
+       db.all(sql,(err, rows) => {
+            resolve(rows);
+        });
+    });
+}
+
+
+
+リスト7-8――./db/exec.js
+exports.exec = function(sql){
+    let sqlite3 = require('sqlite3').verbose();
+    let db = new sqlite3.Database('todo.db');
+    return new Promise((resolve, reject)=>{
+       db.exec(sql,(stat, err) => {
+            resolve(stat);
+        });
+    });
+}
+
+
+
+
+リスト7-9――./routes/users.js
+var express = require('express');
+var router = express.Router();
+
+var dbget = require('../db/get.js');
+var dball = require('../db/all.js');
+var dbdo = require('../db/exec.js');
+
+/* Login page */
+router.get('/login', function(req, res, next) {
+    res.render('login', {
+        title: 'Login',
+        login: req.session.login,
+    });
+});
+router.post('/login', async function(req, res, next) {
+
+    let account = req.body.account;
+    let pass = req.body.password;
+
+    let sql = "select * from users where account='" 
+        + account + "' and password='" + pass + "'";
+    let record = await dbget.getRow(sql);
+    if (record != undefined){
+        req.session.login = record;
+    }
+    res.redirect('/');
+});
+
+/* Logout */
+router.get('/logout', function(req, res, next) {
+    req.session.login = undefined;
+    res.redirect('/users/login');
+});
+
+/* Admin (Add New User) */
+router.get('/admin', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    if (req.session.login.role != 'admin'){
+        res.redirect('/users/login');
+    }
+    res.render('admin', {
+        title: 'Admin',
+        login: req.session.login,
+    });
+});
+router.post('/admin', async function(req, res, next) {
+    let account = req.body.account;
+    let pass = req.body.password;
+    let name = req.body.name;
+    let sql = "insert into users (account, password, name, role) values('" + account + "','" + pass + "','" + name + "','user')";
+    await dbdo.exec(sql);
+    res.render('admin', {
+        title: 'Admin',
+        login: req.session.login,
+    });
+});
+
+/* Show User List */
+router.get('/admin2', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    if (req.session.login.role != 'admin'){
+        res.redirect('/users/login');
+    }
+    let sql = "select * from users";
+    let records = await dball.getAllRows(sql);
+    res.render('admin2', {
+        title: 'Admin2',
+        login: req.session.login,
+        data:records,
+    });
+});
+
+/* Delete User */
+router.get('/del_usr', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    if (req.session.login.role != 'admin'){
+        res.redirect('/users/login');
+    }
+    let id = req.query.id;
+    let sql = 'delete from users where id=' + id;
+    await dbdo.exec(sql);
+    res.redirect('/users/admin2')
+});
+
+module.exports = router;
+
+
+
+
+リスト7-10――./views/login.ejs
+<%-include('./header') %>
+
+<form method="post" action="/users/login">
+    <div class="form-group">
+        <label for="name">Account</label>
+        <input type="text" id="account" name="account" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" 
+            class="form-control">
+        </div>
+        <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('./footer') %>
+
+
+
+
+リスト7-11――./views/admin.ejs
+<%-include('./header') %>
+
+<p class="h5 mt-4">Add new user.</p>
+<form method="post" action="/users/admin">
+    <div class="form-group">
+        <label for="account">Account</label>
+        <input type="mail" id="account" name="account" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" id="password" name="password" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('./footer') %>
+
+
+
+
+リスト7-12――./views/admin2.ejs
+<%-include('./header') %>
+<script>
+function del(id){
+    var result = window.confirm('id=' + id + ' のユーザを削除しますか。');
+    if (result){
+        window.location = '/users/del_usr?id=' + id;
+    }
+}
+</script>
+<p class="h5 mt-4">Registered users.</p>
+<ul class="list-group">
+    <% for( let i in data){ %>
+        <li class="list-group-item list-group-item-action">
+            <%=data[i].id + ': ' + data[i].account %> <strong><a href="javascript:del(<%=data[i].id %>)">[delete]</a></strong>
+        </li>
+    <% } %>
+</ul>
+     
+<%-include('./footer') %>
+
+
+
+リスト7-13――./routes/index.js
+var express = require('express');
+var router = express.Router();
+
+var dbget = require('../db/get.js');
+var dball = require('../db/all.js');
+var dbdo = require('../db/exec.js');
+
+/* User Home */
+router.get('/', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    let sql = "select *,datetime(finished,'+9 hours') from todo where user_id=" 
+            + req.session.login.id + ' and checked = 0 and finished > CURRENT_TIMESTAMP order by finished asc limit 10';
+    let records = await dball.getAllRows(sql);
+    let sql2 = "select *,datetime(finished,'+9 hours') from todo where user_id=" + 
+            req.session.login.id + ' and checked = 0 and finished < CURRENT_TIMESTAMP order by finished desc limit 10';
+    let records2 = await dball.getAllRows(sql2);
+    res.render('index', {
+        title: 'ToDo',
+        login: req.session.login,
+        data: records,
+        data2: records2,
+    });
+});
+
+/* Add New ToDo */
+router.get('/add', function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    res.render('add', {
+        title: 'Add ToDo',
+        login: req.session.login,
+    });
+});
+router.post('/add', async function(req, res, next) {
+    let uid = req.session.login.id;
+    let title = req.body.title;
+    let memo = req.body.memo;
+    let finished = req.body.finished;
+    let sql = "insert into todo (user_id,title,memo,finished) values("
+            + uid + ",'" + title + "','" + memo + "',datetime('" + finished 
+            +"','-9 hours'))";
+    await dbdo.exec(sql);
+    res.redirect('/');
+});
+
+/* View ToDo Detail */
+router.get('/view', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    let uid = req.session.login.id;
+    let id = req.query.id;
+    let sql = "select *,datetime(finished,'+9 hours') from todo where user_id=" + uid + " and checked=0 and id=" + id;
+    console.log(sql);
+    let record = await dbget.getRow(sql);
+    res.render('view', {
+        title: 'Show ToDo',
+        login: req.session.login,
+        data: record,
+    });
+});
+
+/* Set checked to TRUE */
+router.get('/complete', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    let uid = req.session.login.id;
+    let id = req.query.id;
+    let sql = "update todo set checked=1 where user_id=" + uid + " and id=" + id;
+    console.log(sql);
+    await dbdo.exec(sql);
+    res.redirect('/');
+});
+
+/* User home */
+router.get('/user', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    let sql = "select *,datetime(finished,'+9 hours') from todo where user_id=" + 
+            req.session.login.id + ' order by finished asc';
+    let records = await dball.getAllRows(sql);
+    res.render('user', {
+        title: 'User Home',
+        login: req.session.login,
+        data: records,
+    });
+});
+
+/* Delete ToDo */
+router.get('/del_todo', async function(req, res, next) {
+    if (req.session.login == undefined){
+        res.redirect('/users/login');
+    }
+    let id = req.query.id;
+    let uid = req.session.login.id;
+    let sql = 'delete from todo where id=' + id + ' and user_id=' +uid;
+    await dbdo.exec(sql);
+    res.redirect('/user')
+});
+
+module.exports = router;
+
+
+
+リスト7-14――./views/index.ejs
+<%-include('./header') %>
+
+<p class="h5 mt-4">Nearly ToDo</p>
+<ol class="list-group">
+    <% for(let i in data){ %>
+        <li class="list-group-item list-group-item-action">
+            <a class="text-dark" href="/view?id=<%=data[i].id %>">
+                <%=data[i]["datetime(finished,'+9 hours')"] + '　' + 
+                    data[i].title %></a>
+        </li>
+    <% } %>
+</ol>
+
+<p class="h5 mt-4">Passed ToDo</p>
+<ol class="list-group">
+    <% for(let i in data2){ %>
+        <li class="list-group-item list-group-item-action">
+            <a class="text-dark" href="/view?id=<%=data2[i].id %>">
+                <%=data2[i]["datetime(finished,'+9 hours')"] + '　' + 
+                    data2[i].title %></a>
+        </li>
+    <% } %>
+</ol>
+
+<%-include('./footer') %>
+
+
+
+リスト7-15――./views/user.ejs
+<%-include('./header') %>
+
+<script>
+function del(id){
+    var result = window.confirm('id=' + id + ' のTODOを削除しますか。');
+    if (result){
+        window.location = '/del_todo?id=' + id;
+    }
+}
+</script>
+<p class="h5 mt-4">ToDo List</p>
+<table class="table mt-4">
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Finished</th>
+        <th>Completed?</th>
+        <th>Delete</th>
+    </tr>
+    <% for(let i in data){ %>
+        <tr>
+            <td><%=data[i].id %></td>
+            <td><%=data[i].title %></td>
+            <td><%=data[i]["datetime(finished,'+9 hours')"] %></td>
+            <td><%=data[i].checked ? 'YES' : '' %></td>
+            <td><a href="javascript:del(<%=data[i].id %>);">DEL</a></td>
+        </tr>
+    <% } %>
+</table>
+
+<%-include('./footer') %>
+
+
+
+リスト7-16――./views/view.ejs
+<%-include('./header') %>
+
+<script>
+function complete(id){
+    let result = window.confirm("このToDoを完了にしますか（完了すると非表示になります）。");
+    if (result == true){
+        window.location = '/complete?id=' + id;
+    }
+}
+</script>
+<p>Show id = <%= data.id %></p>
+
+<ol class="list-group">
+    <li class="list-group-item h4">
+        <%=data.title %>
+    </li>
+    <li class="list-group-item">
+        <%-data.memo.split(/\r\n|\n|\r/).join('<br>') %>
+    </li>
+    <li class="list-group-item text-center">
+        終了日時： <%=data["datetime(finished,'+9 hours')"] %>
+    </li>
+    <li class="list-group-item text-center">
+        <a class="btn btn-primary" 
+            href="javascript:complete(<%=data.id %>)">
+            Completed!!</a>
+    </li>
+</ol>
+
+<%-include('./footer') %>
+
+
+
+リスト7-17――./views/add.ejs
+<%-include('./header') %>
+
+<form method="post" action="/add">
+    <div class="form-group">
+        <label for="name">Title</label>
+        <input type="text" id="title" name="title" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="memo">Memo</label>
+        <textarea id="memo" name="memo" 
+            class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="finished">Finished</label>
+        <input type="datetime-local" id="finished" name="finished" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('./footer') %>

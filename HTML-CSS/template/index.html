@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <p id = "msg" class="h4" onclick="action(event)">type item...</p>
+    <div class="form-group">
+        <label for="f1">item:</label>
+        <input type="text" id = "f1" class="form-control">
+    </div>
+    <div class="form-group">
+        <button onclick = "action(event)" class="btn btn-primary">Click!</button>
+    </div>
+    <h6>List</h6>
+    <ul id = "list" class="list-group"></ul>
+
+    <script>
+        function action(event){
+            var f1 = document.querySelector("#f1");
+            var msg = document.querySelector("#msg");
+            var list = document.querySelector("#list");
+            if(f1.value==""){
+                var item = list.children[0].remove();
+            }else{
+                var li = document.createElement("li");
+                li.className = "list-group-item";
+                li.textContent = f1.value;
+                li.addEventListener("click",clickItem);
+                list.appendChild(li);
+                msg.textContent = "「"+ f1.value+"」が追加されました";
+                f1.value = "";
+            }
+        }
+
+        function clickItem(event){
+            var item = event.target;
+            var items = item.parentNode.childNodes;
+            for(var i=0;i<items.length;i++){
+                items[i].classList.remove("active");
+            }
+            item.classList.add("active");
+            var msg = document.querySelector("#msg");
+            msg.textContent = "selected:" + item.textContent;
+        }
+    </script>
+    
+</body>
+</html>

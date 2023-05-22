@@ -1,0 +1,573 @@
+﻿リスト3-1
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+</head>
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    document.write("これはJavaScriptによる表示です。");
+    </script></p>
+</body>
+</html>
+
+
+
+
+
+リスト3-2
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var price = 123500;
+    var tax0 = 0.08;
+    var tax1 = 0.1;
+    document.write("金額：" + price + "<br>");
+    document.write("軽減税率適用：" + price * (1.0 + tax0) + "円<br>");
+    document.write("通常の税率：" + price * (1.0 + tax1) + "円<br>");
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-3
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var num = 12345;
+    if (num % 2 == 0){
+        document.write(num + "は、偶数です。<br>");
+    } else {
+        document.write(num + "は、奇数です。<br>");
+    }
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-4
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var jikan = 12;
+    var result = Math.floor(jikan / 6);
+    switch(result){
+    case 0:
+        document.write('おやすみなさい。' + jikan + '時は、深夜です。');
+        break;
+    case 1:
+        document.write('おはよう。' + jikan + '時は、朝です。');
+        break;
+    case 2:
+        document.write('こんにちは。' + jikan + '時は、昼です。');
+        break;
+    case 3:
+        document.write('こんばんは。' + jikan + '時は、夜です。');
+        break;
+    default:
+        document.write('？ ' + jikan + '時、ですか？');
+    }
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-5
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var N = 1103;
+    var num =2;
+    var result = true;
+    while(num < N){
+        if (N % num  == 0){
+            result = false;
+            break;
+        }
+        num ++;
+    }
+    if (result){
+        document.write(N + "は、素数です。");
+    } else {
+        document.write(N + "は、素数じゃないです。");   
+    }
+    </script></p>
+</body>
+
+
+
+リスト3-6
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var N = 1103;
+    var result = true;
+    for(var i = 2;i < N; i++){
+        if (N % i  == 0){
+            result = false;
+            break;
+        }
+    }
+    if (result){
+        document.write(N + "は、素数です。");
+    } else {
+        document.write(N + "は、素数じゃないです。");   
+    }
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-7
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    function hello(name){
+        document.write("Hello, " + name + "!<br>");
+    }
+
+    hello("Taro");
+    hello("Hanako");
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-8
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    function calc(n){
+        var total = 0;
+        for (var i = 1;i <= n;i++){
+            total += i;
+        }
+        return total;
+    }
+
+    var num = 100; //☆
+    document.write(num + 'までの合計は、' + calc(num) + 'です。');
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-9
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var arr = [98, 76, 57, 69, 85]; //☆
+    var total = 0;
+    for(var i = 0; i < 5;i++){
+        total += arr[i];
+    }
+    document.write('合計は、' + total + 
+        '、平均は、' + total / 5 + 'です。');
+    </script></p>
+</body>
+
+
+
+
+リスト3-10
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var arr = [98, 76, 57, 69, 85];
+    var total = 0;
+    for(var i in arr){
+        total += arr[i];
+    }
+    document.write('合計は、' + total + 
+        '、平均は、' + total / 5 + 'です。');
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-11
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var arr = {'国語':98, '数学': 76, '英語':54, '理科':78, '社会':90}; //☆
+    var total = 0;
+    for(var key in arr){
+        total += arr[key];
+        document.write(key + ': ' + arr[key] + '<br>');
+    }
+    document.write('<p>合計は、' + total + 
+        '、平均は、' + total / 5 + 'です。</p>');
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-12
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var keisan = {};
+    keisan['data'] = [0];
+    keisan['calc'] = function(){
+        var total = 0;
+        for(var n in keisan['data']){
+            total += keisan['data'][n];
+        }
+        return total;
+    }
+    keisan['report'] = function(){
+        document.write('Data: ' + keisan['data'] + '<br>');
+        document.write('total: ' + keisan['calc']());
+    }
+    
+    keisan['data'] = [123, 45, 67, 89, 10];
+    keisan['report']();
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-13
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var keisan = {};
+    keisan.data = [0];
+    keisan.calc = function(){
+        var total = 0;
+        for(var n in this.data){
+            total += this.data[n];
+        }
+        return total;
+    }
+    keisan.report = function(){
+        document.write('Data: ' + this.data + '<br>');
+        document.write('total: ' + this.calc());
+    }
+    
+    keisan.data = [123, 45, 67, 89, 10];
+    keisan.report();
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-14
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    var keisan = {
+       data:[123, 45, 67, 89, 10],
+        calc:function(){
+            var total = 0;
+            for(var n in this.data){
+                total += this.data[n];
+            }
+            return total;
+        },
+        report:function(){
+            document.write('Data: ' + this.data + '<br>');
+            document.write('total: ' + this.calc());
+        }
+    }
+    
+    keisan.report();
+    </script></p>
+</body>
+
+
+
+
+
+
+リスト3-15
+<body class="container">
+    <h1>Hello!</h1>
+    <p><script>
+    class Keisan {
+        constructor(data) {
+            this.data = data;
+        }
+        calc(){
+            var total = 0;
+            for(var n in this.data){
+                total += this.data[n];
+            }
+            return total;
+        }
+        report(){
+            document.write('<div class="alert alert-info">');
+            document.write('Data: ' + this.data + '<br>');
+            document.write('total: ' + this.calc());
+            document.write('</div>');
+        }
+    }
+
+    var k1 = new Keisan([12, 34, 56, 78, 90]);
+    k1.report();
+    var k2 = new Keisan([109, 87, 65, 43, 21]);
+    k2.report();
+    </script></p>
+</body>
+
+
+
+
+
+リスト3-16
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg">wailt  ...</p>
+    <script>
+    var p = document.querySelector('#msg');
+    setTimeout(function(){
+        p.textContent = 'これがDOM操作の威力だ！';
+    }, 3000);
+    </script>
+</body>
+
+
+
+
+
+リスト3-17
+<body class="container">
+    <h1>Hello!</h1>
+    <p onclick="action(event)">click me!</p>
+    <script>
+    var counter = 0;
+    
+    function action(event){
+        counter++;
+        var dom = event.target;
+        dom.textContent = 'Count: ' + counter;
+    }
+    </script>
+</body>
+
+
+
+
+
+リスト3-18
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg" onclick="action(event)">フォームを入力：click me!</p>  
+    <div class="form-group">
+        <label for="f1">Name</label>
+        <input type="text" id="f1" class="form-control">
+    </div>
+    <div class="form-group">
+            <label for="f2">Password</label>
+            <input type="password" id="f2" class="form-control">
+    </div>
+    <div class="form-group">
+        <button onclick="action(event)" class="btn btn-primary">
+            Click!
+        </button>
+    </div>
+    <script>
+    function action(event){
+        var f1 = document.querySelector('#f1');
+        var f2 = document.querySelector('#f2');
+        var result = 'Your name: ' + f1.value + '<br>'
+            + 'Password:(' + f2.value.length + 'chars)';
+        var msg = document.querySelector('#msg');
+        msg.innerHTML = result;
+    }
+    </script>
+</body>
+
+
+
+
+
+リスト3-19
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg" onclick="action(event)">フォントサイズとフォント名を設定：click me!</p>  
+    <div class="form-group">
+        <label for="f1">Size</label>
+        <input type="range" id="f1" min="10" max="100"
+            class="form-control-range">
+    </div>
+    <div class="form-group">
+            <label for="f2">Font Family</label>
+            <select id="f2" class="form-control">
+                <option>Serif</option>
+                <option>Sans-Serif</option>
+                <option>Monospace</option>
+            </select>
+    </div>
+    <div class="form-group">
+        <button onclick="action(event)" class="btn btn-primary">
+            Click!
+        </button>
+    </div>
+    <script>
+    function action(event){
+        var f1 = document.querySelector('#f1');
+        var f2 = document.querySelector('#f2');
+        var msg = document.querySelector('#msg');
+        msg.style.fontFamily = f2.value;
+        msg.style.fontSize = f1.value + 'px';
+        var result = f2.value + '(' + f1.value + 'px)';
+        msg.innerHTML = result;
+    }
+    </script>
+</body>
+
+
+
+
+
+
+リスト3-20
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg" class="h3 p-2"
+        onclick="action(event)">RGBを設定：click me!</p> 
+    <div class="form-group">
+        <label for="R">R</label>
+        <input type="range" id="R" min="0" max="255"
+            class="form-control-range" oninput="action()">
+    </div>
+    <div class="form-group">
+        <label for="G">G</label>
+        <input type="range" id="G" min="0" max="255"
+            class="form-control-range" oninput="action()">
+    </div>
+    <div class="form-group">
+        <label for="B">B</label>
+        <input type="range" id="B" min="0" max="255"
+            class="form-control-range" oninput="action()">
+    </div>
+    <div class="form-group">
+        <button onclick="action(event)" class="btn btn-primary">
+            Click!
+        </button>
+    </div>   
+    <script>
+    function action(){
+        var R = document.querySelector('#R');
+        var G = document.querySelector('#G');
+        var B = document.querySelector('#B');
+        var msg = document.querySelector('#msg');
+        var color = R.value + ',' + G.value + 
+            ',' + B.value;
+        msg.style.backgroundColor = 'rgb(' + color + ')';
+        var val = R.value + G.value + B.value;
+        if (val > 360){
+            msg.style.color = 'black';
+        } else {
+            msg.style.color = 'white';
+        }
+        msg.textContent = '[ ' + color + ' ]';
+    }
+
+    action();
+    </script>
+</body>
+
+
+
+
+リスト3-21
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg">Select color!</p>
+    <div class="form-group">
+        <label for="f2">Color</label>
+        <select id="list" class="form-control"
+            onclick="action(event)">
+            <option>-</option>
+            <option>primary</option>
+            <option>secondary</option>
+            <option>success</option>
+        </select>
+    </div>
+    <script>
+    function action(event){
+        var list = document.querySelector('#list');
+        var msg = document.querySelector('#msg');
+        if (list.value == '-'){
+            msg.textContent = 'Select color!';
+            msg.className = '';
+            return;
+        }
+        msg.className = '';
+        msg.classList.add('alert');
+        msg.classList.add('alert-' + list.value);
+        msg.textContent = 'アラートカラーを "' + list.value + 
+            '" に変更しました。'
+    }
+    </script>
+</body>
+
+
+
+
+
+リスト3-22
+<body class="container">
+    <h1>Hello!</h1>
+    <p id="msg" class="h4"
+        onclick="action(event)">type item...</p>
+    <div class="form-group">
+        <label for="f1">Item:</label>
+        <input type="text" id="f1" class="form-control">
+    </div>
+    <div class="form-group">
+        <button onclick="action(event)" class="btn btn-primary">
+            Click!
+        </button>
+    </div>
+    <h6>List</h6>
+    <ul id="list" class="list-group"></ul>
+    <script>
+    function action(event){
+        var f1 = document.querySelector('#f1');
+        var list = document.querySelector('#list');
+        var msg = document.querySelector('#msg');
+        if (f1.value == ''){
+            var item = list.children[0].remove();
+        } else {
+            var li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.textContent = f1.value;
+            list.appendChild(li);
+            msg.textContent = '「' + f1.value + 
+                '」を追加しました。';
+            f1.value = '';
+        }
+    }
+    </script>
+</body>
+
+
+
+

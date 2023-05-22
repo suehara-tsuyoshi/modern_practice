@@ -1,0 +1,16 @@
+<%- include('../header') %>
+
+<p class="h5"> DELETE ID = <%= data.id %></p>
+<form method="post" action="/db/del">
+    <div class="form-group">
+        <input type='hidden' class="form-control" id="id" name="id" value="<%= data.id %>">
+    </div>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">Name: "<%= data.name %>"</li>
+        <li class="list-group-item">Mail: "<%= data.mail %>"</li>
+    </ul>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+<%- include('../footer') %>

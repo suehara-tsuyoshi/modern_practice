@@ -1,0 +1,492 @@
+﻿リスト6-1――./routes/db.jsファイル
+var express = require('express');
+var router = express.Router();
+
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('mydata.db');
+
+router.get('/', function(req, res, next) {
+    let data = []
+    db.all('SELECT * FROM persondata', (err, rows)=>{
+        let opt = {
+            title: 'Hello!',
+            data: rows
+        }
+        res.render('db', opt);
+    });
+});
+
+module.exports = router;
+
+
+
+
+
+
+リスト6-2――./views/db.ejsファイル
+<%-include('header') %>
+
+<p>sampledata records.</p>
+<ol class="list-group">
+<% for( let i in data){ %>
+    <li class="list-group-item">
+        <%=data[i].id + ': ' + data[i].name 
+            + ' (' + data[i].mail + ')' %>
+    </li>
+<% } %>
+</ol>
+
+<%-include('footer') %>
+
+
+
+
+
+リスト6-3――./app.js
+var dbRouter = require('./routes/db');
+
+
+
+
+
+リスト6-4――./app.js
+app.use('/db', dbRouter);
+
+
+
+
+
+リスト6-5――./views/nav.ejsの<ul>内に以下を追加
+<li class="nav-item active">
+    <a class="nav-link" href="/db">DB</a>
+</li>
+
+
+
+
+
+リスト6-6――./db/all.jsファイル
+exports.getAllRows = function(sql){
+    let sqlite3 = require('sqlite3').verbose();
+    let db = new sqlite3.Database('mydata.db');
+
+    return new Promise((resolve, reject)=>{
+       db.all(sql,(err, rows) => {
+            resolve(rows);
+        });
+    });
+}
+
+
+
+
+
+リスト6-7――./routes/db.jsファイル
+var express = require('express');
+var router = express.Router();
+
+let dbutil = require('../db/all.js');
+
+router.get('/', async (req, res, next)=>{
+    const sql = 'SELECT * FROM persondata where id';
+    let rows = await dbutil.getAllRows(sql);
+    let opt = {
+        title: 'Hello!',
+        data: rows
+    }
+    res.render('db', opt);
+});
+
+module.exports = router;
+
+
+
+
+
+リスト6-8――./routes/db.jsファイル
+var express = require('express');
+var router = express.Router();
+
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('mydata.db');
+
+router.get('/', async (req, res, next)=>{
+    let id = 1;
+    if (req.query.id != undefined){
+        id = req.query.id;     
+    }
+    let sql = 'SELECT * FROM persondata where id = ' + id;
+    db.get(sql, (err, row)=>{
+        let opt = {
+            title: 'Hello!',
+            data: row
+        }
+        res.render('db', opt);
+    });
+    
+});
+
+module.exports = router;
+
+
+
+
+
+
+リスト6-9――./views/db.ejsファイル
+<%-include('header') %>
+
+<p>sampledata records.</p>
+<ol class="list-group">
+    <li class="list-group-item">
+        ID = <%=data.id %>
+    </li>
+    <li class="list-group-item">
+        Name = <%=data.name %>
+    </li>
+    <li class="list-group-item">
+        Mail = <%=data.mail %>
+    </li>
+</ol>
+
+<%-include('footer') %>
+
+
+
+
+
+
+リスト6-10――./db/get.jsファイル
+exports.getRow = function(sql){
+    let sqlite3 = require('sqlite3').verbose();
+    let db = new sqlite3.Database('mydata.db');
+
+    return new Promise((resolve, reject)=>{
+       db.get(sql,(err, row) => {
+            resolve(row);
+        });
+    });
+}
+
+
+
+
+
+
+リスト6-11――./routes/db.jsファイル
+var express = require('express');
+var router = express.Router();
+
+let dbutil = require('../db/get.js');
+
+router.get('/', async (req, res, next)=>{
+    let id = 1;
+    if (req.query.id != undefined){
+        id = req.query.id;     
+    }
+    let sql = 'SELECT * FROM persondata where id = ' + id;
+    let row = await dbutil.getRow(sql);
+    let opt = {
+        title: 'Hello!',
+        data: row
+    }
+    res.render('db', opt);
+});
+
+module.exports = router;
+
+
+
+
+
+
+リスト6-12――./routes/db.jsファイル
+var express = require('express');
+var router = express.Router();
+
+let dbutil = require('../db/all.js');
+
+router.get('/', async (req, res, next)=>{
+    let sql = 'SELECT * FROM persondata';
+    let rows = await dbutil.getAllRows(sql);
+    let opt = {
+        title: 'Hello!',
+        sql:sql,
+        data: rows
+    }
+    res.render('db', opt);
+});
+
+router.post('/', async (req, res, next)=>{
+    let sql = req.body.sql;
+    let rows = await dbutil.getAllRows(sql);
+    let opt = {
+        title: 'Hello!',
+        sql,sql,
+        data: rows
+    }
+    res.render('db', opt);
+});
+
+module.exports = router;
+
+
+
+
+
+
+リスト6-13――./views/db.ejsファイル
+<%-include('header') %>
+
+<form method="post" action="/db">
+    <div class="form-group">
+        <label for="sql">SQL</label>
+        <input type="text" id="sql" name="sql" 
+            class="form-control" value="<%-sql %>">
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<ol class="list-group">
+<% for( let i in data){ %>
+    <li class="list-group-item">
+        <%=JSON.stringify(data[i]) %>
+    </li>
+<% } %>
+</ol>
+
+<%-include('footer') %>
+
+
+
+
+
+
+リスト6-14
+SELECT id,name FROM persondata
+
+
+
+
+
+
+リスト6-15
+SELECT * FROM persondata WHERE id = 1
+
+
+
+
+
+
+リスト6-15
+SELECT * FROM persondata WHERE id = 1
+
+
+
+
+
+
+リスト6-17
+SELECT * FROM persondata WHERE id  in (1, 2, 3)
+
+
+
+
+
+
+リスト6-18
+SELECT * FROM persondata WHERE id > 1 and id < 5
+
+
+
+
+
+
+リスト6-19
+SELECT * FROM persondata WHERE mail like '%.jp' or mail like '%.org'
+
+
+
+
+
+
+リスト6-20
+SELECT * FROM persondata ORDER BY id desc
+
+
+
+
+
+
+リスト6-21
+SELECT * FROM persondata ORDER BY id LIMIT 3 OFFSET 3
+
+
+
+
+
+
+リスト6-22  ――./routes/db.jsファイル
+let sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('mydata.db');
+
+router.get('/add', async (req, res, next)=>{
+    let opt = {
+        title: 'Hello!',
+    }
+    res.render('db/create', opt);
+});
+
+router.post('/add', async (req, res, next)=>{
+    let name = req.body.name;
+    let mail = req.body.mail;
+    let sql = 'insert into persondata (name,mail) values("' +
+        name + '","' + mail + '");';
+    db.exec(sql, (stat, err) =>{
+        res.redirect('/db');
+    });
+});
+
+
+
+
+
+
+リスト6-23――./views/db/create.ejsファイル
+<%-include('../header') %>
+
+<form method="post" action="/db/add">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" 
+            class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="mail">Mail</label>
+        <input type="text" id="mail" name="mail" 
+            class="form-control">
+        </div>
+        <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('../footer') %>
+
+
+
+
+
+
+リスト6-24――./routes/db.js
+let dbget = require('../db/get.js');
+
+router.get('/edit', async (req, res, next)=>{
+    let id = 1;
+    if (req.query.id != undefined){
+        id = req.query.id;
+    }
+    let sql = 'select * from persondata where id = ' + id;
+    let rec = await dbget.getRow(sql);
+    let opt = {
+        title: 'Hello!',
+        data:rec
+    }
+    res.render('db/edit', opt);
+});
+
+router.post('/edit', async (req, res, next)=>{
+    let id = req.body.id;
+    let name = req.body.name;
+    let mail = req.body.mail;
+    let sql = "update persondata set name='" + name + 
+        "', mail='" + mail + "' where id=" + id;
+    db.exec(sql, (stat, err) =>{
+        res.redirect('/db');
+    });
+});
+
+
+
+
+
+
+リスト6-25　./views/db/edit.ejs
+<%-include('../header') %>
+<p class="h5">ID = <%= data.id %>.</p>
+<form method="post" action="/db/edit">
+    <input type="hidden" name="id" value="<%=data.id %>">
+    <div class="form-group">
+        <input type="text" id="name" name="name"
+            class="form-control" value="<%=data.name %>">
+    </div>
+    <div class="form-group">
+        <label for="mail">Mail</label>
+        <input type="text" id="mail" name="mail"
+            class="form-control" value="<%=data.mail %>">
+        </div>
+        <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('../footer') %>
+
+
+
+
+
+
+リスト6-26――./routes/db.jsファイル
+router.get('/del', async (req, res, next)=>{
+    let id = 1;
+    if (req.query.id != undefined){
+        id = req.query.id;
+    }
+    let sql = 'select * from persondata where id = ' + id;
+    let rec = await dbget.getRow(sql);
+    let opt = {
+        title: 'Hello!',
+        data:rec
+    }
+    res.render('db/del', opt);
+});
+
+router.post('/del', async (req, res, next)=>{
+    let id = req.body.id;
+    let sql = "delete from persondata where id=" + id;
+    db.exec(sql, (stat, err) =>{
+        res.redirect('/db');
+    });
+});
+
+
+
+
+
+
+リスト6-27――./views/db/del.ejsファイル
+<%-include('../header') %>
+
+<p class="h5">Delete ID = <%= data.id %>.</p>
+<form method="post" action="/db/del">
+    <input type="hidden" name="id" value="<%=data.id %>">
+    <ul class="list-group mb-3">
+        <li class="list-group-item">NAME: "<%=data.name %>"</li>
+        <li class="list-group-item">MAIL: "<%=data.mail %>"</li>
+    </ul>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</form>
+
+<%-include('../footer') %>
+
+
+
+
+
+
+

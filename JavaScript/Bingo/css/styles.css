@@ -1,0 +1,8 @@
+th,tr{
+  font-family: 'Courier New', Courier, monospace;
+  background-color: pink;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}

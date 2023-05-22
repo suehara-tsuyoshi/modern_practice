@@ -1,0 +1,189 @@
+@charset "UTF-8";
+html{
+  font-size: 62.5%;
+}
+body{
+  color: #000000;
+  font-size: 1.2rem;
+  font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+*,*::after,*::before{
+  box-sizing: border-box;
+}
+a:link,a:visited,a:hover,a:active{
+  color: #000000;
+  text-decoration: none;
+}
+.header{
+  width: 100%;
+  height: 700px;
+  margin: 0 0 30px;
+  border: solid 1px #000000;
+  background: url("../images/aurora.jpg");
+
+}
+.header .top{
+  font-size: 5.0rem;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 350px;
+}
+.header .globalnav{
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 2;
+}
+.header .pagetitle{
+  padding: 0 15px;
+  margin-top: 5px;
+  float: left;
+  font-size: 40px;
+}
+.header .gnav{
+  padding-top: 20px;
+  padding-right: 30px;
+  float: right;
+}
+.header .gnav-item{
+  font-size: 1.5rem;
+  display: inline-block;
+  padding: 0 30px;
+}
+.header a:hover{
+  border-bottom: solid 1px #000000;
+}
+.header .button{
+  width: 15%;
+  height: 50px;
+  margin: 0 auto;
+  border: 1px solid #ffffff;
+}
+.header .button p{
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.8rem;
+  line-height: 1.8rem;
+  letter-spacing: 1px;
+}
+.localnav{
+  width: 100%;
+}
+.localnav .localnavitem{
+  position: relative;
+  width: 16%;
+  display: inline-block;
+  margin-left: 4%;
+  margin-top: 30px;
+}
+.localnav .images{
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 135px;
+  height: 135px;
+}
+.localnav .title{
+  margin-top: 160px;
+  text-align: center;
+}
+.localnav .local-list{
+  list-style-type: none;
+  padding: 5px 20px 10px;
+  margin-top: 0;
+  margin-left: 0;
+
+}
+.local-list .item{
+  font-size: 16px;
+  width: 100%;
+  height: 24px;
+  background-color: #DDDDDD;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.localnav a:hover{
+  background-color: #DDDDDD;
+}
+.localnav .localnavitem:nth-of-type(1){
+  margin-left: 12%;
+}
+.process{
+  margin-top: 100px;
+}
+.process .pheader{
+  font-size: 3.0rem;
+  position: relative;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.process .pheader::before{
+  content: "";
+  width: 70px;
+  height: 2px;
+  display: inline-block;
+  position: absolute;
+  bottom: -20px;
+  left: 590px;
+  background-color: #000000;
+}
+.process .headbox{
+  width: 20%;
+  height: 400px;
+  float: left;
+  padding-top: 70px;
+  margin-left: 100px;
+}
+.headbox .headitem{
+  display: block;
+  padding-left: 20px;
+  width: 100%;
+  height: 70px;
+  border-left: solid 7px #000000;
+  margin-top: 10px;
+}
+.headbox .headitem .headtext{
+  width: 100%;
+  height: 70px;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 16px;
+}
+.processmain .mainheader{
+  display: inline-block;
+  float: right;
+  width: 60%;
+  border: solid 2px #DDDDDD;
+  margin:70px 100px 0 0;
+  font-size: 1.4rem;
+  padding: 20px;
+}
+.processmain .processitem{
+  display: inline-block;
+  float: right;
+  width: 60%;
+  margin: 50px 100px 0 0;
+  margin-top: 50px;
+}
+.processitem .itemheader{
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+.processitem .itemheader::after{
+  content: "";
+  flex-grow: 1;
+  border-top: 1px solid #000000;
+  margin-left: 1rem;
+}
+.processitem .content{
+  font-size: 1.4rem;
+}
+.arrow{
+  text-align: center;
+  font-size: 30px;
+}

@@ -1,0 +1,521 @@
+﻿リスト2-1
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <p>これは、サンプルのWebページです。</p>
+</body>
+</html>
+
+
+
+
+リスト2-2
+<body>
+    <h1>＜ｈ１＞の見出し</h1>
+    <h2>＜ｈ２＞の見出し</h2>
+    <h3>＜ｈ３＞の見出し</h3>
+    <h4>＜ｈ４＞の見出し</h4>
+    <h5>＜ｈ５＞の見出し</h5>
+    <h6>＜ｈ６＞の見出し</h6>
+</body>
+
+
+
+
+リスト2-3
+<body>
+    <h1>Hello!</h1>
+    <p>これはサンプルのコンテンツです。<br>
+    途中で改行表示もできます。</p>
+    <p>別の段落と改行は表示が違います。</p>
+    <pre>
+    def func():
+        print("これはサンプルのリストです。")
+        print("&lt;pre&gt;タグで記述します。")
+    </pre>
+    <hr>
+    <p>間に仕切りを表示することもできます。</p>
+</body>
+
+
+
+
+リスト2-4
+<body>
+    <h1>Hello!</h1>
+    <p>これは、<a href="http://google.com">Google</a>
+        へのリンクです。</p>
+</body>
+
+
+
+
+リスト2-5
+<body>
+    <header>
+        <h1>Hello!</h1>
+    </header>
+    <article>
+        <p>これは、メインのコンテンツです。</p>
+        <pre>This is Main Content.</pre>
+    </article>
+    <footer>
+        <p>copyright mynavi 2019.</p>
+    </footer>
+</body>
+    
+
+
+リスト2-6
+<body>
+    <h1>Hello!</h1>
+    <p>順番付しないリスト</p>
+    <ul>
+        <li>最初の項目です。</li>
+        <li>真ん中の項目です。</li>
+        <li>最後の項目です。</li>
+    </ul>
+    <hr>
+    <p>順番付したリスト</p>
+    <ol>
+        <li>最初の項目です。</li>
+        <li>真ん中の項目です。</li>
+        <li>最後の項目です。</li>
+    </ol>
+</body>
+
+
+
+
+リスト2-7
+<body>
+    <h1>Hello!</h1>
+    <p>順番付しないリスト</p>
+    <ul>
+        <li>最初の項目です。</li>
+        <li>真ん中の項目です。
+            <ul>
+                <li>最初の項目です。</li>
+                <li>真ん中の項目です。
+                    <ul>
+                        <li>最初の項目です。</li>
+                        <li>真ん中の項目です。</li>
+                        <li>最後の項目です。</li>
+                    </ul>
+                </li>
+                <li>最後の項目です。</li>
+            </ul>
+        </li>
+        <li>最後の項目です。</li>
+    </ul>
+</body>
+
+
+
+
+リスト2-8
+<body>
+    <h1>Hello!</h1>
+    <dl>
+        <dt>タイトル</dt>
+        <dd>Webプログラミング完全入門</dd>
+        <dt>著者</dt>
+        <dd>山田太郎</dd>
+        <dt>出版社</dt>
+        <dd>（株）マイナビ</dd>
+    </dl>
+</body>
+
+
+
+
+リスト2-9
+<body>
+    <h1>Hello!</h1>
+    <p>テーブルの表示</p>
+    <table >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>YAMADA-Taro</td>
+                <td>taro@yamada</td>
+            </tr>
+            <tr>
+                <td>2</th>
+                <td>TANAKA-Sachiko</td>
+                <td>sachiko@happy</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+    
+
+
+
+
+
+
+リスト2-10
+<body>
+    <h1>Hello!</h1>
+    <form>
+        <div>
+            <input type="text" size="40">
+        </div>
+        <div>
+            <textarea cols="30"rows="3">default text.</textarea>
+        </div>
+        <div>
+            <input type="checkbox" id="ch">
+            <label for="ch">Checkbox</label>
+        </div>
+        <div>
+            <input type="radio" name="r" id="r1">
+            <label for="r1">Radio button A</label><br>
+            <input type="radio" name="r" id="r2">
+            <label for="r2">Radio button B</label>
+        </div>
+        <div>
+            <select size="3" multiple>
+                <option>項目１</option>
+                <option>項目２</option>
+                <option>項目３</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Click">
+        </div>
+    </form>
+</body>
+
+
+
+
+
+
+
+リスト2-11
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    h1 { color: red; }
+    p { font-size: 24pt; color:blue; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <p>This is Sample Content.</p>
+</body>
+</html>
+
+
+
+
+リスト2-12
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    h1 { font-size:2.5em; font-family:cursive; }
+    h2 { font-size:2.0em; font-family:fantasy; }
+    p { font-size:1.2em; font-family:sans-serif; }
+    span { font:bold italic 1.7em Serif; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <h2>Hello!</h2>
+    <p>This is <span>Sample</span> content.</p>
+</body>
+</html>
+
+
+
+
+リスト2-13
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    h1 { font-size:2.0em; color:#ff0000; }
+    h2 { font-size:1.6em; color:rgb(0,255, 255); }
+    p { font-size:1.2em; color:blue; }
+    span { color:white; background-color:magenta; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <h2>Hello!</h2>
+    <p>This is <span>Sample</span> content.</p>
+</body>
+</html>
+
+
+
+
+リスト2-14
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    h1 { font-size:1.0em;
+        background-color:aquamarine; padding:10px; }
+    h2 { font-size:1.0em;
+        background-color:aquamarine; padding:20px; }
+    h3 { font-size:1.0em;
+        background-color:aquamarine; padding:30px; }
+    h4 { font-size:1.0em;
+        background-color:lightpink; margin:10px; }
+    h5 { font-size:1.0em;
+        background-color:lightpink; margin:20px; }
+    h6 { font-size:1.0em;
+        background-color:lightpink; margin:30px; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <h2>Hello!</h2>
+    <h3>Hello!</h3>
+    <hr>
+    <h4>Hello!</h4>
+    <h5>Hello!</h5>
+    <h6>Hello!</h6>
+</body>
+</html>
+
+
+
+
+リスト2-15
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    body { margin: 0px 20px; }
+    h1 { font-size:2.0em;color:red; }
+    p { font-size:1.2em; color:darkblue; }
+    p#next { font-size:1.5em; color:#aa00ff; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <p>This is Sample Content.</p>
+    <p id="next">This is Sample Content.</p>
+    <p>This is Sample Content.</p>
+</body>
+</html>
+
+
+
+
+リスト2-16
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <style>
+    body { margin: 0px 20px; }
+    h1 { font-size:2.0em;color:red; }
+    li { font-size:1.2em; padding: 5px 10px; margin:0px; }
+    li.A { color:blue; background-color:lightblue; }
+    li.B { color:lightblue; background-color:blue; }
+    </style>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <ul>
+        <li class="A">Windows</li>
+        <li class="B">macOS</li>
+        <li class="A">Linux</li>
+        <li class="B">ChromeOS</li>
+    </ul>
+</body>
+</html>
+
+
+
+
+リスト2-17
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+</head>
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <p class="lead">This is Bootstrap sample.</p>
+    <p>これは、Bootstrapを利用したページデザインの例です。</p>
+</body>
+</html>
+
+
+
+
+リスト2-18
+<body class="container">
+    <h1>Hello!</h1>
+    <h2>Hello!</h2>
+    <h3>Hello!</h3>
+    <h4>Hello!</h4>
+    <h5>Hello!</h5>
+    <h6>Hello!</h6>
+    <p class="display-1">Hello!</p>
+    <p class="display-2">Hello!</p>
+    <p class="display-3">Hello!</p>
+    <p class="display-4">Hello!</p>
+</body>
+
+
+
+
+リスト2-19
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <div class="h5">
+        <p class="text-primary">This is Primary color.</p>
+        <p class="text-secondary">This is Secondary color.</p>
+        <p class="text-success">This is Success color.</p>
+        <p class="bg-info p-1">This is Info color.</p>
+        <p class="bg-warning p-1">This is Warning color.</p>
+        <p class="bg-danger p-1">This is Danger color.</p>
+    </div>
+</body>
+
+
+
+
+リスト2-20
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <ul class="list-group h5">
+        <li class="list-group-item active">Windows</li>
+        <li class="list-group-item">Linux</li>
+        <li class="list-group-item disabled">macOS</li>
+        <li class="list-group-item">ChromeOS</li>
+    </ul>
+</body>
+
+
+
+
+リスト2-21
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <form>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="pw">Password</label>
+            <input type="password" class="form-control" id="pw">
+        </div>
+        <input type="submit" class="btn btn-primary">
+    </form>
+</body>
+
+
+
+
+リスト2-22
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
+
+リスト2-23
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <div class="alert alert-primary" role="alert">
+        ※これがアラートの表示です。
+    </div>
+    <p>This is Bootstrap sample.</p>
+</body>
+
+
+
+
+リスト2-24
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    ※これがアラートの表示です。
+    <button class="close" data-dismiss="alert">&times;</button>
+</div>
+
+
+
+
+リスト2-25
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Sample Card</h5>
+        <h6 class="card-subtitle">This is card content.</h6>
+        <p class="card-text">これは、カードのサンプルです。
+            コンテンツをまとめて目立つように表示できます。</p>
+        <a href="#" class="card-link">sample link</a>
+    </div>
+</div>
+
+
+
+
+リスト2-26
+<div class="card">
+    <div class="card-header text-center">
+        <h5 class="card-title">Sample Card</h5>
+    </div>
+    <div class="card-body">
+        <h6 class="card-subtitle">This is card content.</h6>
+        <p class="card-text">これは、カードのサンプルです。
+            コンテンツをまとめて目立つように表示できます。</p>
+        <a href="#" class="card-link">sample link</a>
+    </div>
+    <div class="card-footer text-right">copyright tuyano.</div>
+</div
+
+
+
+
+リスト2-27
+<body class="container">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" 
+            href="#collapse" role="button">
+            show/hide collapse
+        </a>
+    </p>
+    <div class="collapse" id="collapse">
+        <div class="card card-body">
+            これは、コラプスで表示されるコンテンツです。
+        </div>
+    </div>
+</body>
